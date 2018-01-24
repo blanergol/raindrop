@@ -1,0 +1,32 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-payment">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #1e202f; text-align: center;border-radius: 5px;">
+            <div class="modal-header" style="border-bottom: none;">
+                <h4 class="modal-title" style="font-style:normal">Упсс, кажется вам не хватает денег на счете</h4>
+            </div>
+            <div class="modal-body">
+                <div class="card card--has-table" id="billing">
+                    <div class="card__content-inner">
+                        <form action="{% url 'users:billing_payment' %}" method="post" class="coupon-code-form coupon-code-form--inline">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="coupon-code-form-inner">
+                                        <label>Денежных средств (в рублях)</label>
+                                        <input type="text" name="ik_am" class="form-control input-sm" placeholder="500">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary-inverse btn-block">Пополнить аккаунт</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; text-align: center;">
+                <a href="#" class="btn btn-primary-inverse" data-dismiss="modal">Закрыть</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Статистика | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Статистика</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li class="active">Статистика</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+
+            <!-- team standings start -->
+            <div class="card card--has-table">
+                <div class="card__header">
+                    <h4>Топ игроков</h4>
+                </div>
+                <div class="card__content">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-standings table-standings--full table-standings--full-football">
+                            <thead>
+                            <tr>
+                                <th class="team-standings__pos">#</th>
+                                <th class="team-standings__team">Игрок</th>
+                                <th class="team-standings__lose">Дата регистрации</th>
+                                <th class="team-standings__pct">Выгриано вещей</th>
+                                <th class="team-standings__diff">Заработок</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in stats.top_users %}
+                                <tr>
+                                    <td class="team-standings__pos">{{ user.user.id }}</td>
+                                    <td class="team-standings__team">
+                                        <div class="team-meta">
+                                            <div class="team-meta__info">
+                                                <h6 class="team-meta__name">{{ user.user.username }}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="team-standings__lose">{{ user.user.date_joined }}</td>
+                                    <td class="team-standings__pct">{{ user.count_stuff }}</td>
+                                    <td class="team-standings__diff text-success">{{ user.score }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Team Standings / End -->
+
+            <!-- Terms Glossary -->
+            <div class="card">
+                <div class="card__header">
+                    <h4>Статистика сайта</h4>
+                </div>
+                <div class="card__content">
+                    <div class="glossary">
+                        <div class="glossary__item"><span class="glossary__abbr">Игроков:</span> {{ stats.users_count }}</div>
+                        <div class="glossary__item"><span class="glossary__abbr">Игроков онлайн:</span> 1</div>
+                        <div class="glossary__item"><span class="glossary__abbr">Количество розыгрышей:</span> {{ stats.history_games_count }}</div>
+                        <div class="glossary__item"><span class="glossary__abbr">Денежный эквивалент:</span> {{ stats.money_games }}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Terms Glossary / End -->
+
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

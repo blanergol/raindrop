@@ -1,0 +1,265 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Вещи {{ user.username }} | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Вещи</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="{% url 'users:profile' pk=request.session.id %}">{{ user.username }}</a></li>
+                        <li class="active">Вещи</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- account navigation start -->
+                    {% include 'users/nav.html' %}
+                    <!-- account navigation end -->
+                </div>
+
+                <div class="col-md-8">
+                    <div class="alert" id="rd-alert"></div>
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header">
+                            <h4>Обмен</h4>
+                        </div>
+                        <div class="card__content-inner">
+                            <form action="{% url 'users:user_service_update' %}" method="post" class="coupon-code-form coupon-code-form--inline" id="user-service-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="coupon-code-form-inner">
+                                            <label>Ссылка на обмен</label>
+                                            <input type="text" name="exchange_link" class="form-control input-sm" placeholder="" value="{{ user_service.exchange_link }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary-inverse btn-block btn-md">Сохранить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table card--has-table">
+                        <div class="card__header card__header--has-btn">
+                            <h4>Выигранные вещи</h4>
+                            <a href="#" class="btn btn-primary-inverse btn-xs card-header__button">Вывести все вещи в STEAM</a>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover team-schedule">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-schedule__date">#</th>
+                                        <th class="team-schedule__versus">Вещь</th>
+                                        <th class="team-schedule__tickets"></th>
+                                        <th class="team-schedule__tickets"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stuff in inventory_games %}
+                                        <tr id="stuff{{ stuff.stuff.id }}">
+                                            <td class="team-schedule__date">{{ stuff.stuff.id }}</td>
+                                            <td class="team-schedule__versus">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ stuff.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ stuff.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" class="btn btn-xs btn-primary-inverse btn-block"
+                                                   onclick="sell_stuff_games({{ stuff.stuff.id }})" data-stuffid="{{ stuff.stuff.id }}">Продать в RainDrop
+                                                    за {{ stuff.stuff.score }} монет</a>
+                                            </td>
+                                            <td class="team-schedule__tickets"><a href="#" class="btn btn-xs btn-default-alt btn-block">Вывести в Steam</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in inventory_games.paginator.page_range %}
+                                {% if num == inventory_games.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:inventory' pk=request.session.id %}/?page_inventory_games={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header card__header--has-btn">
+                            <h4>Купленные вещи</h4>
+                            <a href="#" class="btn btn-primary-inverse btn-xs card-header__button">Вывести все вещи в STEAM</a>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover team-schedule">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-schedule__date">#</th>
+                                        <th class="team-schedule__versus">Вещь</th>
+                                        <th class="team-schedule__tickets"></th>
+                                        <th class="team-schedule__tickets"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stuff in inventory_shop %}
+                                        <tr id="stuff{{ stuff.stuff.id }}">
+                                            <td class="team-schedule__date">{{ stuff.stuff.id }}</td>
+                                            <td class="team-schedule__versus">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ stuff.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ stuff.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" class="btn btn-xs btn-primary-inverse btn-block"
+                                                   onclick="sell_stuff_shop({{ stuff.stuff.id }})" data-stuffid="{{ stuff.stuff.id }}">Продать в магазине
+                                                    за {{ stuff.stuff.score }} монет</a>
+                                            </td>
+                                            <td class="team-schedule__tickets"><a href="#" class="btn btn-xs btn-default-alt btn-block">Вывести в Steam</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in inventory_shop.paginator.page_range %}
+                                {% if num == inventory_shop.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:inventory' pk=request.session.id %}/?page_inventory_shop={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header">
+                            <h4>Вещи на вашем аккаунте в Steam</h4>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover team-schedule">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-schedule__date">#</th>
+                                        <th class="team-schedule__versus">Вещь</th>
+                                        <th class="team-schedule__tickets"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stuff in inventory_steam %}
+                                        <tr id="stuff{{ stuff.stuff.id }}">
+                                            <td class="team-schedule__date">{{ stuff.stuff.id }}</td>
+                                            <td class="team-schedule__versus">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ stuff.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ stuff.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" class="btn btn-xs btn-primary-inverse btn-block grub-stuff-button"
+                                                   data-stuffid="{{ stuff.stuff.id }}">Продать в RainDrop за {{ stuff.stuff.score }} монет</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in inventory_steam.paginator.page_range %}
+                                {% if num == inventory_steam.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:inventory' pk=request.session.id %}/?page_inventory_steam={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

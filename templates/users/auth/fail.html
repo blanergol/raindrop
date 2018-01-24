@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Вы не были авторизованы | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">{{ user.username }}</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="">Главная</a></li>
+                        <li class="active">{{ user.username }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+
+            <!-- error 404 start -->
+            <div class="error-404">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <header class="error__header">
+                            <h2 class="error__title">Упппссс, что-то пошло не так.</h2>
+                            <h3 class="error__subtitle">Произошла какая-то ошибка во время авторизации.</h3>
+                        </header>
+                        <div class="error__description">
+                            Увжаемый пользователь, попробуйте произвести авторизацию еще раз. Есили ошибка сохранится, воспользуйтесь контактами для связи с
+                            администраторами сайта.
+                        </div>
+                        <footer class="error__cta">
+                            <a href="{% url 'pages:pages' pk=1 %}" class="btn btn-primary">Правила сайта</a>
+                            <a href="{% url 'main:contact' %}" class="btn btn-primary-inverse">Контакты</a>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+            <!-- error 404 end -->
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

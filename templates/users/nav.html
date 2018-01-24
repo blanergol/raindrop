@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card__content">
+        <nav class="df-account-navigation">
+            <ul id="profile_navigation">
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:profile' pk=user.pk %}">Паресональная информация </a>
+                </li>
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:shop' pk=user.pk %}">Магазин</a>
+                </li>
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:billing' pk=user.pk %}">Счет</a>
+                </li>
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:inventory' pk=user.pk %}">Вещи</a>
+                </li>
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:history_games' pk=user.pk %}">История игр</a>
+                </li>
+                <li class="df-account-navigation__link">
+                    <a href="{% url 'users:logout' %}">Выход</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>{{ case.title }} | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">{{ case.title }}</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="#">Игры</a></li>
+                        <li><a href="{% url 'lottery:briefcases' %}">RD Case</a></li>
+                        <li class="active">{{ case.title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            {% if case_stuff_count > 0 and settings.enable_rdcase == True %}
+                <div class="row">
+                    <div class="alert" id="rd-alert"></div>
+
+                    <div class="col-md-5">
+                        <!-- Widget: Match Announcement -->
+                        <aside class="widget widget--sidebar card widget-preview">
+                            <div class="widget__content card__content">
+
+                                <!-- Match Preview -->
+                                <div class="match-preview">
+                                    <section class="match-preview__body">
+                                        <header class="match-preview__header match-preview__header--decor">
+                                            <div class="match-preview__header-inner">
+                                                <div class="case_full">{{ case.score }} монет</div>
+                                                <h3 class="match-preview__title match-preview__title--lg">{{ case.title }}</h3>
+                                            </div>
+                                        </header>
+                                        <div class="match-preview__content" style="text-align: center; padding: 0 0 0px 0;">
+                                            <img src="{{ case.img_thumbnail_briefcases_page.url }}" alt="" class="duotone-img processed"
+                                                 data-gradient-map="#282840, #f92552">
+                                        </div>
+                                    </section>
+                                    <div class="match-preview__action match-preview__action--ticket">
+                                        <a href="#" class="btn btn-primary-inverse btn-lg btn-block" id="rdcase-button" data-rdcase="{{ case.id }}">Открыть кейс!</a>
+                                    </div>
+                                </div>
+                                <!-- Match Preview / End -->
+
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <!-- Team Roster: Table -->
+                            <div class="card card--has-table cases_lt">
+                                <div style="width: 2000px;">
+                                    {% for case in case_stuff_tmp %}
+                                        <div class="col-md-3 rdcase-case-items" id="rdcase-case-item{{ case.id }}">
+                                            <img src="{{ case.img_thumbnail.url }}" alt="">
+                                            <span>{{ case.title }}</span>
+                                            <p>{{ case.score }} монет</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Team Roster: Table / End -->
+                        </div>
+                        <div class="row">
+                            <!-- Team Roster: Table -->
+                            <div class="card card--has-table">
+                                <div class="card__header card__header--has-btn">
+                                    <h4>Результаты LIVE</h4>
+                                    <a href="{% url 'main:stats' %}" class="btn btn-primary-inverse btn-xs card-header__button">Подробная статистика</a>
+                                </div>
+                                <div class="card__content">
+                                    <table class="table table-hover team-schedule">
+                                        <thead>
+                                        <tr>
+                                            <th class="team-schedule__tickets">#</th>
+                                            <th class="team-schedule__venue">Игрок</th>
+                                            <th class="team-schedule__versus">Вещь</th>
+                                            <th class="team-schedule__status">Стоимость</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for game in stats_live %}
+                                            <tr>
+                                                <td class="team-schedule__tickets">{{ game.id }}</td>
+                                                <td class="team-schedule__venue">{{ game.user.username }}</td>
+                                                <td class="team-schedule__versus">
+                                                    <div class="team-meta">
+                                                        <figure class="team-meta__logo">
+                                                            <img src="{{ game.stuff.img_thumbnail.url }}" alt="">
+                                                        </figure>
+                                                        <div class="team-meta__info">
+                                                            <h6 class="team-meta__name">{{ game.stuff.title }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="team-schedule__status text-success">{{ game.stuff.score }} монет</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Team Roster: Table / End -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card--has-table">
+                    <div class="card__header" style="text-align: center">
+                        <h4>Вы получите один из следующих призов</h4>
+                    </div>
+                </div>
+
+                <div class="gallery row">
+                    {% for case in case_stuff %}
+                        <div class="gallery__item col-xs-2 col-sm-2 dotabox">
+                            <a href="" class="gallery__item-inner card">
+                                <header class="gallery__header card__header dotabox_stuff_header">
+                                    <div class="gallery__details">
+                                        <h4 class="gallery__name">{{ case.title }}</h4>
+                                        <div class="gallery__date" style="font-size: 13px; font-style: normal;color: #f92552;">{{ case.score }} монет</div>
+                                    </div>
+                                </header>
+                                <figure class="gallery__thumb">
+                                    <img src="{{ case.img_thumbnail.url }}" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        <h3 style="margin: 50px;">Режим временно отключен. Обязательно попробуйте позже!</h3>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="rdcase-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #1e202f; text-align: center;border-radius: 5px;">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <img id="rdcase-img" src="">
+                        <h5 id="rdcase-title" style="font-style: normal;"></h5>
+                        <h4 id="rdcase-score" style="font-style: normal; color: #F92552;"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; text-align: center;">
+                <a href="javascript:void(1)" class="btn btn-primary-inverse payment-grub-stuff-button" data-stuffid="">Продать везщь за </a>
+                <a href="javascript:void(1)" class="btn btn-primary-inverse" id="grub-stuff-button">Забрать себе</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- payment modal start -->
+{% include 'include/payment_modal.html' %}
+<!-- payment modal end -->
+
+</body>
+</html>

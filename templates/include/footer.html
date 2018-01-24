@@ -1,0 +1,101 @@
+{% load staticfiles %}
+<footer id="footer" class="footer">
+    <!-- footer widgets start -->
+    <div class="footer-widgets">
+        <div class="footer-widgets__inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="footer-col-inner">
+                            <!-- widget: about start -->
+                            <div class="widget widget--footer">
+                                <h4 class="widget__title">Немного о нас</h4>
+                                <div class="widget__content">
+                                    <img src="{% static 'raindrop/images/raindrop/logo-footer.png' %}" class="footer-logo__img" style="float: left;padding: 10px;">
+                                    <p style="color:#fff;">{{ settings.short_description }}</p>
+                                </div>
+                            </div>
+                            <!-- widget: about end -->
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="footer-col-inner">
+                            <!-- widget: popular posts end -->
+                            <div class="widget widget--footer widget-popular-posts">
+                                <h4 class="widget__title">Последние статьи</h4>
+                                <div class="widget__content">
+                                    <ul class="posts posts--simple-list posts--simple-list-numbered">
+                                        {% for article in articles_footer %}
+                                            <li class="posts__item posts__item--category-1">
+                                                <div class="posts__inner">
+                                                    <div class="posts__cat">
+                                                        <span class="label posts__cat-label">{{ article.author }}</span>
+                                                    </div>
+                                                    <h6 class="posts__title"><a href="{% url 'articles:full' pk=article.pk %}">{{ article.title }}</a></h6>
+                                                    <time datetime="{{ article.created_date }}" class="posts__date">{{ article.created_date }}</time>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- widget: popular posts end -->
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="footer-col-inner">
+
+                            <!-- widget: contact end -->
+                            <div class="widget widget--footer widget-contact">
+                                <h4 class="widget__title">Обратная связь</h4>
+                                <div class="widget__content">
+                                    <form action="{% url 'main:send_email' %}" class="contact-form">
+                                        <div class="form-group form-group--xs">
+                                            <input type="email" class="form-control input-sm" id="contact-form-email" placeholder="Введите ваш email...">
+                                        </div>
+                                        <div class="form-group form-group--xs">
+                                            <textarea class="form-control input-sm" name="contact-form-message" rows="6" placeholder="Текст сообщения..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary-inverse btn-sm btn-block">Отправить сообщение</button>
+                                    </form>
+                                    <p id="contact-form-message"></p>
+                                </div>
+                            </div>
+                            <!-- widget: contact end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer widgets end -->
+
+    <!-- footer secondary start -->
+    <div class="footer-secondary">
+        <div class="container">
+            <div class="footer-secondary__inner">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="footer-copyright"><a href="{% url 'main:main' %}">Raindrop.one</a> 2017 © Все права зищещены.</div>
+                        <span>Developed by <a href="http://artgrosvil.ru" target="_blank">Trusov Ilya</a></span>
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="footer-nav footer-nav--right footer-nav--sm">
+                            <li class="footer-nav__item"><a href="{% url 'main:main' %}">Главная</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'lottery:briefcases' %}">RD CASE</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'lottery:dotabox' pk=1 %}">DOTA BOX</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'lottery:magick_ball' %}">MAGICK BALL</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'lottery:techies' %}">TECHIES</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'shop:main' %}">Магазин</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'main:stats' %}">Статистика</a></li>
+                            <li class="footer-nav__item"><a href="{% url 'main:contact' %}">Контакты</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer secondary end -->
+</footer>

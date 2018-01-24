@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!-- header mobile start -->
+<div class="header-mobile clearfix" id="header-mobile">
+    <div class="header-mobile__logo">
+        <a href="{% url 'main:main' %}"><img src="{% static 'raindrop/images/raindrop/logo.png' %}" class="header-mobile__logo-img"></a>
+    </div>
+    <div class="header-mobile__inner">
+        <a id="header-mobile__toggle" class="burger-menu-icon"><span class="burger-menu-icon__line"></span></a>
+        <span class="header-mobile__search-icon" id="header-mobile__search-icon"></span>
+    </div>
+</div>
+
+<!-- header desktop star -->
+<header class="header">
+    <!-- header top bar start -->
+    <div class="header__top-bar clearfix">
+        <div class="container">
+            <!-- account navigation start -->
+            <ul class="nav-account">
+                <li class="nav-account__item"><a href="#">Язык: <span class="highlight">РУ</span></a>
+                    <ul class="main-nav__sub">
+                        <li><a href="#">Русский</a></li>
+                        <li><a href="#">English(скоро)</a></li>
+                    </ul>
+                </li>
+                {% if user and not user.is_anonymous %}
+                    {% include 'users/nav_header.html' %}
+                {% else %}
+                    <li class="nav-account__item"><a href="{% url "social:begin" "steam" %}">Авторизация через STEAM</a></li>
+                {% endif %}
+            </ul>
+            <!-- account navigation end -->
+        </div>
+    </div>
+    <!-- header top bar end -->
+
+    <!-- header secondary start -->
+    <div class="header__secondary">
+        <div class="container">
+            <ul class="info-block info-block--header">
+                <li class="info-block__item info-block__item--contact-primary">
+                    <h6 class="info-block__heading">Следите на нами в VK.COM</h6>
+                    <a class="info-block__link" href="https://vk.com/{{ settings.vk_link }}" target="_blank">vk.com/{{ settings.vk_link }}</a>
+                </li>
+                <li class="info-block__item info-block__item--contact-primary">
+                    <h6 class="info-block__heading">Почта для связи с администрацией</h6>
+                    <a class="info-block__link" href="mailto:{{ settings.email }}">{{ settings.email }}</a>
+                </li>
+                {% if user and not user.is_anonymous %}
+                    <li class="info-block__item info-block__item--shopping-cart">
+                        <a href="{% url 'users:billing' pk=request.session.id %}/#billing" class="info-block__link-wrapper">
+                            <h6 class="info-block__heading">Пополнить баланс</h6>
+                            <span class="info-block__cart-sum">{{ billing.score }} монет</span>
+                        </a>
+
+                        <!-- Dropdown Shopping Cart -->
+                        <ul class="header-cart">
+                            {% for game in history_games_header %}
+                                <li class="header-cart__item">
+                                    <figure class="header-cart__product-thumb">
+                                        <a href="">
+                                            <img src="{{ game.stuff.img_thumbnail.url }}" alt="" style="width: 50px;">
+                                        </a>
+                                    </figure>
+                                    <div class="header-cart__inner">
+                                        <h5 class="header-cart__product-name"><a href="">{{ game.stuff.title }}</a></h5>
+                                        <div class="header-cart__product-sum">
+                                            <span class="header-cart__product-price">{{ game.stuff.score }} монет</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            <li class="header-cart__item header-cart__item--action">
+                                <a href="{% url 'users:inventory' pk=request.session.id %}" class="btn btn-default btn-block">Остальные вещи</a>
+                                <a href="{% url 'users:billing' pk=request.session.id %}/#billing" class="btn btn-primary-inverse btn-block">Пополнить баланс</a>
+                            </li>
+                        </ul>
+                        <!-- Dropdown Shopping Cart / End -->
+
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- header secondary end -->
+
+    <!-- header primary start -->
+    <div class="header__primary">
+        <div class="container">
+            <div class="header__primary-inner">
+                <!-- hHeader logo start -->
+                <div class="header-logo">
+                    <a href="{% url 'main:main' %}">
+                        <img src="{% static 'raindrop/images/raindrop/logo.png' %}" alt="Alchemists" class="header-logo__img">
+                        <span style="margin-left: -30px;">BETA</span>
+                    </a>
+                </div>
+                <!-- header logo end -->
+
+                <!-- main navigation start -->
+                <nav class="main-nav clearfix">
+                    <ul class="main-nav__list" id="header_navigation">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="{% url 'lottery:briefcases' %}">RD CASE</a></li>
+                        <li><a href="{% url 'lottery:dotabox' pk=1 %}">DOTA BOX</a></li>
+                        <li><a href="{% url 'lottery:magick_ball' %}">MAGICK BALL</a></li>
+                        <li><a href="{% url 'lottery:techies' %}">TECHIES</a></li>
+                        <li><a href="{% url 'shop:main' %}">Магазин</a></li>
+                        <li><a href="{% url 'main:stats' %}">Статистика</a></li>
+                        <li><a href="{% url 'main:contact' %}">Контакты</a></li>
+                        <li class="has-children"><a href="/pages/1/">Другое</a>
+                            <ul class="main-nav__sub">
+                                <li><a href="{% url 'main:video' %}">Видео</a></li>
+                                <li><a href="{% url 'articles:main' %}">Статьи</a></li>
+                                <li><a href="{% url 'main:about' %}">О нас</a></li>
+                                {% for page in pages_header %}
+                                    <li><a href="{% url 'pages:pages' pk=page.id %}">{{ page.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- main navigation end -->
+            </div>
+        </div>
+    </div>
+    <!-- header primary end -->
+</header>

@@ -1,0 +1,99 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Видео | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Последние <span class="highlight">видео</span></h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li class="active">Видео</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- сontent start -->
+    <div class="site-content">
+        <div class="container">
+            <!-- posts area 2 start -->
+            <div class="card card--clean mb-0">
+
+
+                <!-- carousel start -->
+                <div class="slick posts posts--video-grid row">
+                    {% for pic in video %}
+                        <div class="col-sm-4">
+                            <div class="posts__item posts__item--category-2">
+                                <a href="{{ pic.video_link }}" class="posts__link-wrapper mp_iframe">
+                                    <figure class="posts__thumb">
+                                        <img src="{{ pic.img_thumbnail.url }}" alt="{{ pic.title }}" class="duotone-img" data-gradient-map="#282840, #4c4b73">
+                                    </figure>
+                                    <div class="posts__inner">
+                                        <div class="posts__cat">
+                                            <span class="label posts__cat-label">{{ pic.author }}</span>
+                                        </div>
+                                        <h3 class="posts__title">{{ pic.title }}</h3>
+                                        <time datetime="{{ pic.created_date }}" class="posts__date">{{ pic.created_date }}</time>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- carousel end -->
+            </div>
+        </div>
+        <!-- posts area 2 end -->
+
+        <div class="text-center">
+            <!-- post pagination start -->
+            <nav class="post-pagination text-center">
+                <ul class="pagination pagination--lg">
+                    {% for num in video.paginator.page_range %}
+                        {% if num == video.number %}
+                            <li class="active"><a href="#">{{ num }}</a></li>
+                        {% else %}
+                            <li><a href="{% url 'main:video' %}/?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+            <!-- post pagination end -->
+        </div>
+    </div>
+</div>
+<!-- content end -->
+
+<!-- footer start -->
+{% include 'include/footer.html' %}
+<!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Статьи | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start-->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Последние <span class="highlight">статьи</span></h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li class="active">Статьи</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="row">
+                <!-- content start -->
+                <div class="content col-md-8">
+                    <!-- posts grid start -->
+                    <div class="posts posts--cards post-grid post-grid--2cols post-grid--fitRows row">
+                        {% for article in articles %}
+                            <div class="post-grid__item col-xs-6">
+                                <div class="posts__item posts__item--card posts__item--category-1 card">
+                                    <figure class="posts__thumb">
+                                        <div class="posts__cat">
+                                            <span class="label posts__cat-label">{{ article.author }}</span>
+                                        </div>
+                                        <a href="{% url 'articles:full' pk=article.pk %}"><img src="{{ article.img_thumbnail_short.url }}" alt="{{ article.title }}"></a>
+                                    </figure>
+                                    <div class="posts__inner card__content">
+                                        <time datetime="{{ article.created_date }}" class="posts__date">{{ article.created_date }}</time>
+                                        <h6 class="posts__title"><a href="{% url 'articles:full' pk=article.pk %}">{{ article.title }}</a></h6>
+                                        <div class="posts__excerpt">
+                                            {{ article.text|striptags|truncatechars:250 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- post grid end -->
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--lg">
+                            {% for num in articles.paginator.page_range %}
+                                {% if num == articles.number %}
+                                    <li class="active"><a href="#">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'articles:main' %}/?page={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                </div>
+                <!-- content end -->
+
+                <!-- sidebar start -->
+                {% include 'include/sidebar.html' %}
+                <!-- sidebar end -->
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Вещи {{ user.username }} | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Магазин</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="{% url 'users:profile' pk=request.session.id %}">{{ user.username }}</a></li>
+                        <li class="active">Магазин</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- account navigation start -->
+                    {% include 'users/nav.html' %}
+                    <!-- account navigation end -->
+                </div>
+
+                <div class="col-md-8">
+                    <div class="alert" id="rd-alert"></div>
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header">
+                            <h4>Выставленные на продажу</h4>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover team-schedule">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-schedule__date">#</th>
+                                        <th class="team-schedule__versus">Вещь</th>
+                                        <th class="team-schedule__tickets"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stuff in shop_stuff %}
+                                        <tr id="stuff{{ stuff.stuff.id }}">
+                                            <td class="team-schedule__date">{{ stuff.stuff.id }}</td>
+                                            <td class="team-schedule__versus">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ stuff.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ stuff.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" onclick="remove_sell_stuff_shop({{ stuff.stuff.id }})"
+                                                   class="btn btn-xs btn-primary-inverse btn-block">Снять с продажи</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in shop_stuff.paginator.page_range %}
+                                {% if num == shop_stuff.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:shop' pk=request.session.id %}/?page_shop_stuff={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header">
+                            <h4>Добавленные в избранное</h4>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover team-schedule">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-schedule__date">#</th>
+                                        <th class="team-schedule__versus">Вещь</th>
+                                        <th class="team-schedule__tickets"></th>
+                                        <th class="team-schedule__tickets"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stuff in shop_stuff_favorites %}
+                                        <tr id="stuff{{ stuff.stuff.id }}">
+                                            <td class="team-schedule__date">{{ stuff.stuff.id }}</td>
+                                            <td class="team-schedule__versus">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ stuff.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ stuff.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" class="btn btn-xs btn-primary-inverse btn-block"
+                                                   onclick="payment_shop({{ stuff.stuff.id }})">Купить за {{ stuff.stuff.score }} монет</a>
+                                            </td>
+                                            <td class="team-schedule__tickets">
+                                                <a href="javascript:void(1)" class="btn btn-xs btn-default-alt btn-block"
+                                                   onclick="favorites_remove_shop({{ stuff.stuff.id }})">Убрать из избранного</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in shop_stuff_favorites.paginator.page_range %}
+                                {% if num == shop_stuff_favorites.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:shop' pk=request.session.id %}/?page_stuff_fav={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>{{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- header posts start -->
+    <div class="container" style="padding-top: 60px">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <a href="{% url 'lottery:briefcases' %}">
+                        <div class="card__content">
+                            <!-- Icobox -->
+                            <div class="icobox icobox--center">
+                                <div class="icobox__icon icobox__icon--border icobox__icon--lg icobox__icon--circle" style="margin-bottom: 5px;">
+                                    <i class="icon-briefcase"></i>
+                                </div>
+                                <div class="icobox__content">
+                                    <h3 class="icobox__title icobox__title--lg" style="color: #F92552; margin: 0;">RD CASE</h3>
+                                    <div class="icobox__description" style="color: #fff; padding-top: 10px;">
+                                        Получи случайные<br> вещи из лота
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Icobox / End -->
+                        </div>
+                        <div class="widget__content-tertiary" style="border-top: 1px solid #3c3b5b;">
+                            <div class="widget__content-inner" style="padding: 15px 24px 15px 24px">
+                                <div class="widget-player__stats row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-player__stat-item">
+                                            <div class="widget-player__stat--label">Сыграно всего</div>
+                                            <div class="widget-player__stat--value">{{ count_history_games.rdcase }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <a href="{% url 'lottery:dotabox' pk=1 %}">
+                        <div class="card__content">
+                            <!-- Icobox -->
+                            <div class="icobox icobox--center">
+                                <div class="icobox__icon icobox__icon--border icobox__icon--lg icobox__icon--circle" style="margin-bottom: 5px;">
+                                    <i class="icon-grid"></i>
+                                </div>
+                                <div class="icobox__content">
+                                    <h3 class="icobox__title icobox__title--lg" style="color: #F92552; margin: 0;">Dota Box</h3>
+                                    <div class="icobox__description" style="color: #fff; padding-top: 10px;">
+                                        Сам выбери<br> любую вещь из 4
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Icobox / End -->
+                        </div>
+                        <div class="widget__content-tertiary" style="border-top: 1px solid #3c3b5b;">
+                            <div class="widget__content-inner" style="padding: 15px 24px 15px 24px">
+                                <div class="widget-player__stats row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-player__stat-item">
+                                            <div class="widget-player__stat--label">Сыграно всего</div>
+                                            <div class="widget-player__stat--value">{{ count_history_games.dotabox }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <a href="{% url 'lottery:magick_ball' %}">
+                        <div class="card__content">
+                            <!-- Icobox -->
+                            <div class="icobox icobox--center">
+                                <div class="icobox__icon icobox__icon--border icobox__icon--lg icobox__icon--circle" style="margin-bottom: 5px;">
+                                    <i class="icon-trophy"></i>
+                                </div>
+                                <div class="icobox__content">
+                                    <h3 class="icobox__title icobox__title--lg" style="color: #F92552; margin: 0;">Magick Ball</h3>
+                                    <div class="icobox__description" style="color: #fff; padding-top: 10px;">
+                                        Шарик подарит<br> любую вещь
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Icobox / End -->
+                        </div>
+                        <div class="widget__content-tertiary" style="border-top: 1px solid #3c3b5b;">
+                            <div class="widget__content-inner" style="padding: 15px 24px 15px 24px">
+                                <div class="widget-player__stats row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-player__stat-item">
+                                            <div class="widget-player__stat--label">Сыграно всего</div>
+                                            <div class="widget-player__stat--value">{{ count_history_games.magick_ball }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <a href="{% url 'lottery:techies' %}">
+                        <div class="card__content">
+                            <!-- Icobox -->
+                            <div class="icobox icobox--center">
+                                <div class="icobox__icon icobox__icon--border icobox__icon--lg icobox__icon--circle" style="margin-bottom: 5px;">
+                                    <i class="icon-fire"></i>
+                                </div>
+                                <div class="icobox__content">
+                                    <h3 class="icobox__title icobox__title--lg" style="color: #F92552; margin: 0;">Techies</h3>
+                                    <div class="icobox__description" style="color: #fff; padding-top: 10px;">
+                                        Пройди клетки<br> не попав на бомбы
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Icobox / End -->
+                        </div>
+                        <div class="widget__content-tertiary" style="border-top: 1px solid #3c3b5b;">
+                            <div class="widget__content-inner" style="padding: 15px 24px 15px 24px">
+                                <div class="widget-player__stats row">
+                                    <div class="col-xs-12">
+                                        <div class="widget-player__stat-item">
+                                            <div class="widget-player__stat--label">Сыграно всего</div>
+                                            <div class="widget-player__stat--value">{{ count_history_games.techies }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <aside class="widget card widget--sidebar widget-player widget-player--alt">
+                    <div class="widget__title card__header card__header--has-btn">
+                        <h4>Магазин</h4>
+                        <a href="{% url 'shop:main' %}" class="btn btn-primary-inverse btn-xs card-header__button">Купить вещи</a>
+                    </div>
+                    <div class="widget__content-secondary" style="text-align: center;">
+                        <h5 style="font-style: normal; font-size: 20px; font-weight: 500; padding: 40px 10px 18px 10px;">Только у нас самые уникальные вещи по низким
+                            ценам на рынке</h5>
+                        <!-- details start -->
+                        <div class="widget-player__details">
+                            <div class="widget-player__details-row">
+                                <div class="widget-player__details__item">
+                                    <div class="widget-player__details-desc-wrapper">
+                                        <span class="widget-player__details-holder">
+                                            <span class="widget-player__details-label" style="font-size: 20px;"><a href="{% url 'shop:main' %}">Купить вещи</a></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="widget-player__details__item">
+                                    <div class="widget-player__details-desc-wrapper">
+                                        <span class="widget-player__details-holder">
+                                            {% if user and not user.is_anonymous %}
+                                                <span class="widget-player__details-label" style="font-size: 20px;"><a
+                                                        href="{% url 'users:shop' pk=request.session.id %}">Продать вещи</a></span>
+                                            {% else %}
+                                                <span class="widget-player__details-label" style="font-size: 20px;"><a
+                                                        href="{% url "social:begin" "steam" %}">Продать вещи</a></span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- details end -->
+
+                    </div>
+
+                    <div class="widget__content-tertiary">
+                        <div class="widget__content-inner">
+                            <div class="widget-player__stats row">
+                                <div class="col-xs-6">
+                                    <div class="widget-player__stat-item">
+                                        <div class="widget-player__stat--value">{{ count_stuff.shop }}</div>
+                                        <div class="widget-player__stat--label">Вещей в продаже</div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="widget-player__stat-item">
+                                        <div class="widget-player__stat--value">{{ count_stuff.sales }}</div>
+                                        <div class="widget-player__stat--label">Вещей продано</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-md-8">
+                <!-- Team Roster: Table -->
+                <div class="card card--has-table">
+                    <div class="card__header card__header--has-btn">
+                        <h4>Результаты LIVE</h4>
+                        <a href="{% url 'main:stats' %}" class="btn btn-primary-inverse btn-xs card-header__button">Подробная статистика</a>
+                    </div>
+                    <div class="card__content">
+                        <div class="table-responsive">
+                            <table class="table table-hover team-schedule">
+                                <thead>
+                                <tr>
+                                    <th class="team-schedule__tickets">#</th>
+                                    <th class="team-schedule__venue">Игрок</th>
+                                    <th class="team-schedule__versus">Вещь</th>
+                                    <th class="team-schedule__status">Стоимость</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for game in stats_live %}
+                                    <tr>
+                                        <td class="team-schedule__tickets">{{ game.id }}</td>
+                                        <td class="team-schedule__venue">{{ game.user.username }}</td>
+                                        <td class="team-schedule__versus">
+                                            <div class="team-meta">
+                                                <figure class="team-meta__logo">
+                                                    <img src="{{ game.stuff.img_thumbnail.url }}" alt="">
+                                                </figure>
+                                                <div class="team-meta__info">
+                                                    <h6 class="team-meta__name">{{ game.stuff.title }}</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="team-schedule__status text-success">{{ game.stuff.score }} монет</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Team Roster: Table / End -->
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+
+            <div class="row">
+                <!-- content start -->
+                <div class="content col-md-8">
+
+                    <!-- posts area 2 start -->
+                    <div class="card card--clean mb-0">
+                        <header class="card__header card__header--has-btn">
+                            <h4>Последние видео</h4>
+                            <a href="{% url 'main:video' %}" class="btn btn-primary-inverse btn-xs card-header__button">Посмотреть все</a>
+                        </header>
+                        <div class="card__content">
+
+                            <!-- carousel start -->
+                            <div class="slick posts posts--video-grid row">
+                                {% for pic in video %}
+                                    <div class="col-sm-6">
+                                        <div class="posts__item posts__item--category-2">
+                                            <a href="{{ pic.video_link }}" class="posts__link-wrapper mp_iframe">
+                                                <figure class="posts__thumb">
+                                                    <img src="{{ pic.img_thumbnail.url }}" alt="{{ pic.title }}" class="duotone-img" data-gradient-map="#282840, #4c4b73">
+                                                </figure>
+                                                <div class="posts__inner">
+                                                    <div class="posts__cat">
+                                                        <span class="label posts__cat-label">{{ pic.author }}</span>
+                                                    </div>
+                                                    <h3 class="posts__title">{{ pic.title }}</h3>
+                                                    <time datetime="{{ pic.created_date }}" class="posts__date">{{ pic.created_date }}</time>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- carousel end -->
+                        </div>
+                    </div>
+                    <!-- posts area 2 end -->
+
+                    <!-- posts area 1 start -->
+                    <!-- latest news start -->
+                    <div class="card card--clean mb-0">
+                        <header class="card__header card__header--has-btn">
+                            <h4>Последние статьи</h4>
+                            <a href="{% url 'articles:main' %}" class="btn btn-primary-inverse btn-xs card-header__button">Посмотреть все</a>
+                        </header>
+                        <div class="card__content">
+                            <!-- posts grid start -->
+                            <div class="posts posts--tile post-grid post-grid--masonry-filter row">
+                                {% for article in articles %}
+                                    <div class="post-grid__item col-sm-6 posts__item--category-1">
+                                        <div class="posts__item posts__item--tile card">
+                                            <figure class="posts__thumb">
+                                                <img src="{{ article.img_thumbnail_short.url }}" alt="{{ article.title }}" class="duotone-img"
+                                                     data-gradient-map="#282840, #4c4b73">
+                                            </figure>
+                                            <div class="posts__inner">
+                                                <div class="posts__cat">
+                                                    <span class="label posts__cat-label">{{ article.author }}</span>
+                                                </div>
+                                                <h6 class="posts__title"><a href="{% url 'articles:full' pk=article.pk %}">{{ article.title }}</a></h6>
+                                                <time datetime="{{ article.created_date }}" class="posts__date">{{ article.created_date }}</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- post grid end -->
+                        </div>
+                    </div>
+                    <!-- latest news end -->
+                    <!-- posts srea 1 end -->
+
+                </div>
+                <!-- content end -->
+
+                <!-- sidebar start -->
+                {% include 'include/sidebar.html' %}
+                <!-- sidebar end -->
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/get_live_stats/',
+                async: true,
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.status === "success") {
+
+                    } else if (data.status === "fail") {
+
+                    }
+                },
+                error: function (data) {
+                    console.log('Error')
+                }
+            });
+        }, 5000);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>История игр {{ user.username }} | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">История игр</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="{% url 'users:profile' pk=request.session.id %}">{{ user.username }}</a></li>
+                        <li class="active">История игр</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- account navigation start -->
+                    {% include 'users/nav.html' %}
+                    <!-- account navigation end -->
+                </div>
+
+                <div class="col-md-8">
+                    <!-- personal information start -->
+                    <div class="card card--has-table">
+                        <div class="card__header">
+                            <h4>История игр</h4>
+                        </div>
+                        <div class="card__content">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-standings table-standings--full table-standings--full-football">
+                                    <thead>
+                                    <tr>
+                                        <th class="team-standings__pos">#</th>
+                                        <th class="team-standings__team">Вещь</th>
+                                        <th class="team-standings__win">Дата игры</th>
+                                        <th class="team-standings__diff">Цена</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for game in history_games %}
+                                        <tr>
+                                            <td class="team-standings__pos">{{ game.id }}</td>
+                                            <td class="team-standings__team">
+                                                <div class="team-meta">
+                                                    <figure class="team-meta__logo">
+                                                        <img src="{{ game.stuff.img_thumbnail.url }}" alt="">
+                                                    </figure>
+                                                    <div class="team-meta__info">
+                                                        <h6 class="team-meta__name">{{ game.stuff.title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="team-standings__win">{{ game.date }}</td>
+                                            <td class="team-standings__diff text-success">{{ game.stuff.score }} монет</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- post pagination start -->
+                    <nav class="post-pagination text-center">
+                        <ul class="pagination pagination--sm">
+                            {% for num in history_games.paginator.page_range %}
+                                {% if num == history_games.number %}
+                                    <li class="active"><a href="javascript:void(1)">{{ num }}</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'users:history_games' pk=request.session.id %}/?page_history_games={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <!-- post pagination end -->
+                    <!-- personal information end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

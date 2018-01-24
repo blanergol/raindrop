@@ -1,0 +1,12 @@
+<ul class="shop-filter__params">
+    {% for atr_type in stuff_attributes_type %}
+        <li class="shop-filter__control">
+            <select class="form-control input-xs">
+                <option value="{{ atr_type.title }}">{{ atr_type.title }}</option>
+                {% for atr in atr_type.attributes.all %}
+                    <option value="{{ atr_type.title }}_{{ atr.title }}">{{ atr.title }}</option>
+                {% endfor %}
+            </select>
+        </li>
+    {% endfor %}
+</ul>

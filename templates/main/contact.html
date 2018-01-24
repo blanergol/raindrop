@@ -1,0 +1,110 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Контакты | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Обратная <span class="highlight">связь</span></h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li class="active">Контакты</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="alert" id="rd-alert"></div>
+
+            <!-- contact area start -->
+            <div class="card">
+                <header class="card__header">
+                    <h4>Обратная связь</h4>
+                </header>
+                <div class="card__content">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>{{ contact.text|safe }}</p>
+
+                            <address>
+                                <strong>Наша почта:</strong> <a href="mailto:{{ settings.email }}">{{ settings.email }}</a>
+                            </address>
+                        </div>
+                        <div class="col-md-8">
+                            <!-- contact form start -->
+                            <form action="{% url 'main:send_email' %}" method="post" class="contact-form" id="contact-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="contact-form-name">Имя <span class="required">*</span></label>
+                                            <input type="text" name="contact-form-name" id="contact-form-name" class="form-control" placeholder="Имя...">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="contact-form-email">Email <span class="required">*</span></label>
+                                            <input type="email" name="contact-form-email" id="contact-form-email" class="form-control" placeholder="Email...">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="contact-form-subject">Тема сообщения </label>
+                                            <input type="text" name="contact-form-subject" id="contact-form-subject" class="form-control" placeholder="Тема...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-form-message">Ваше сообщение <span class="required">*</span></label>
+                                    <textarea name="contact-form-message" rows="5" class="form-control" placeholder="Текст сообщения..."></textarea>
+                                </div>
+                                <div class="form-group form-group--submit">
+                                    <button type="submit" class="btn btn-primary-inverse btn-lg btn-block">Отправить сообщение</button>
+                                </div>
+                            </form>
+                            <p id="contact-form-message"></p>
+                            <!-- contact form end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- contact area end -->
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>

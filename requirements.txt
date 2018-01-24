@@ -1,0 +1,6 @@
+django==1.10
+django-ckeditor
+django-imagekit
+psycopg2
+pillow
+social-auth-app-django

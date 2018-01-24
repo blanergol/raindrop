@@ -1,0 +1,71 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Magick Ball | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Magick Ball</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="#">Игры</a></li>
+                        <li class="active">Magick Ball</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'lottery/nav.html' %}
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            {% if magick_ball_stuff_count > 0 and settings.enable_magick_ball == True %}
+
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        <h3 style="margin: 50px;">Режим временно отключен. Обязательно попробуйте позже!</h3>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+<!-- payment modal start -->
+{% include 'include/payment_modal.html' %}
+<!-- payment modal end -->
+
+</body>
+</html>

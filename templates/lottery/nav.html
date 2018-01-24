@@ -1,0 +1,15 @@
+<nav class="content-filter">
+    <div class="container">
+        <a href="#" class="content-filter__toggle"></a>
+        <ul class="content-filter__list" id="dotabox-nav">
+            {% for mode in dotabox_modes %}
+                <li class="content-filter__item">
+                    <a href="{% url 'lottery:dotabox' pk=mode.id %}" class="content-filter__link">
+                        <h5 style="font-style: normal;">{{ mode.title }}</h5>
+                        {{ mode.score }} монет
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,186 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Dota Box | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Dota Box</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="#">Игры</a></li>
+                        <li class="active">Dota Box</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'lottery/nav.html' %}
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            {% if dotabox_stuff_count > 4 and settings.enable_dotabox == True %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Угадай контейнер!</h2>
+                    </div>
+                    <div class="col-md-4" style="padding: 10px; text-align: right;">
+                        {% if user and not user.is_anonymous %}
+                            <span style="color: #fff; font-size: 20px;">Стомость одной игры: {{ dotabox_mode.score }} монет</span>
+                        {% else %}
+                            <span style="color: #fff; font-size: 20px;">Попробуй бесплатно!</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-2">
+                        <a href="javascript:void(1)" class="btn btn-primary-inverse" id="dotabox-button" data-dotabox="{{ dotabox_mode.id }}">Попробовать!</a>
+                    </div>
+                </div>
+                <!-- gallery start -->
+                <div class="card card--has-table">
+                    <div class="card__content">
+                        <div class="row dotabox">
+                            <h3 id="dotabox-result-txt">Выбери бокс!</h3>
+
+                            <div class="col-md-3 dotabox_case" id="dotabox-case1">
+                                <img src="{% static 'raindrop/images/chest.png' %}" alt="" class="duotone-img processed" data-gradient-map="#282840, #f92552">
+                                <div id="dotabox-case-info1">
+                                    <h6 class="dotabox_case_score" id="dotabox-case-score1"></h6>
+                                    <span>Контейнер #1</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 dotabox_case" id="dotabox-case2">
+                                <img src="{% static 'raindrop/images/chest.png' %}" alt="" class="duotone-img processed" data-gradient-map="#282840, #f92552">
+                                <div id="dotabox-case-info2">
+                                    <h6 class="dotabox_case_score" id="dotabox-case-score2"></h6>
+                                    <span>Контейнер #2</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 dotabox_case" id="dotabox-case3">
+                                <img src="{% static 'raindrop/images/chest.png' %}" alt="" class="duotone-img processed" data-gradient-map="#282840, #f92552">
+                                <div id="dotabox-case-info3">
+                                    <h6 class="dotabox_case_score" id="dotabox-case-score3"></h6>
+                                    <span>Контейнер #3</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 dotabox_case" id="dotabox-case4">
+                                <img src="{% static 'raindrop/images/chest.png' %}" alt="" class="duotone-img processed" data-gradient-map="#282840, #f92552">
+                                <div id="dotabox-case-info4">
+                                    <h6 class="dotabox_case_score" id="dotabox-case-score4"></h6>
+                                    <span>Контейнер #4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- gallery end -->
+
+                <div class="card card--has-table">
+                    <div class="card__header" style="text-align: center">
+                        <h4>Вы получите один из следующих призов</h4>
+                    </div>
+                </div>
+
+                <div class="gallery row">
+                    {% for stuff in dotabox_stuff %}
+                        <div class="gallery__item col-xs-2 col-sm-2 dotabox">
+                            <a href="" class="gallery__item-inner card">
+                                <header class="gallery__header card__header dotabox_stuff_header">
+                                    <div class="gallery__details">
+                                        <h4 class="gallery__name">{{ stuff.title }}</h4>
+                                        <div class="gallery__date" style="font-size: 13px; font-style: normal;color: #f92552;">{{ stuff.score }} монет</div>
+                                    </div>
+                                </header>
+                                <figure class="gallery__thumb">
+                                    <img src="{{ stuff.img_thumbnail.url }}" alt="">
+                                </figure>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        <h3 style="margin: 50px;">Режим временно отключен. Обязательно попробуйте позже!</h3>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="dotabox-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #1e202f; text-align: center;border-radius: 5px;">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <img id="dotabox-img" src="">
+                        <h5 id="dotabox-title" style="font-style: normal;"></h5>
+                        <h4 id="dotabox-score" style="font-style: normal; color: #F92552;"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; text-align: center;">
+                <a href="#" class="btn btn-primary-inverse">Продать за 300 монет</a>
+                <a href="javascript:void(1)" class="btn btn-primary-inverse" id="reload-page-button">Забрать себе</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="dotabox-free-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #1e202f; text-align: center;border-radius: 5px;">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <img id="dotabox-free-img" src="">
+                        <h5 id="dotabox-free-title" style="font-style: normal;"></h5>
+                        <h4 id="dotabox-free-score" style="font-style: normal; color: #F92552;"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; text-align: center;">
+                <a href="{% url "social:begin" "steam" %}" class="btn btn-primary-inverse">Авторизируйтесь в STEAM, чтобы забрать себе вещь</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- payment modal start -->
+{% include 'include/payment_modal.html' %}
+<!-- payment modal end -->
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<div id="sidebar" class="sidebar col-md-4">
+
+    <!-- widget: standings start -->
+    <aside class="widget card widget--sidebar widget-standings">
+        <div class="widget__title card__header card__header--has-btn">
+            <h4>Статистика игроков</h4>
+            <a href="{% url 'main:stats' %}" class="btn btn-primary-inverse btn-xs card-header__button">Подробнее</a>
+        </div>
+        <div class="widget__content card__content">
+            <div class="table-responsive">
+                <table class="table table-hover table-standings">
+                    <thead>
+                    <tr>
+                        <th>Игрок</th>
+                        <th>Вещей</th>
+                        <th>Заработок</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in top_users %}
+                        <tr>
+                            <td>
+                                <div class="team-meta">
+                                    <div class="team-meta__info">
+                                        <h6 class="team-meta__name">{{ user.user.username }}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ user.count_stuff }}</td>
+                            <td>{{ user.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </aside>
+    <!-- widget: standings end -->
+
+    <!-- widget: social buttons grid start -->
+    <aside class="widget widget--sidebar widget-social widget-social">
+        <a href="https://vk.com/{{ settings.vk_link }}" class="btn-social-counter btn-social-counter--vk" target="_blank">
+            <div class="btn-social-counter__icon">
+                <i class="fa fa-vk"></i>
+            </div>
+            <h6 class="btn-social-counter__title">Следите за нами в VK.COM</h6>
+            <span class="btn-social-counter__count">{{ settings.vk_link }}</span>
+        </a>
+    </aside>
+    <!-- widget: social buttons grid end -->
+
+    <!-- widget: popular news numbered start -->
+    <aside class="widget widget--sidebar card widget-popular-posts">
+        <div class="widget__title card__header">
+            <h4>Популярные статьи</h4>
+        </div>
+        <div class="widget__content card__content">
+            <ul class="posts posts--simple-list posts--simple-list-numbered">
+                {% for article in articles_best %}
+                    <li class="posts__item posts__item--category-1">
+                        <div class="posts__inner">
+                            <div class="posts__cat">
+                                <span class="label posts__cat-label">{{ article.author }}</span>
+                            </div>
+                            <h6 class="posts__title"><a href="{% url 'articles:full' pk=article.pk %}">{{ article.title }}</a></h6>
+                            <time datetime="2017-09-22" class="posts__date">{{ article.date_created }}</time>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+    <!-- widget: popular news numbered end -->
+</div>

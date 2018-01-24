@@ -1,0 +1,10 @@
+<li class="nav-account__item"><a href="#">Профиль: <span class="highlight">{{ request.session.username }}</span></a>
+    <ul class="main-nav__sub">
+        <li><a href="{% url 'users:profile' pk=request.session.id %}">Персональная информация</a></li>
+        <li><a href="{% url 'users:shop' pk=request.session.id %}">Магазин</a></li>
+        <li><a href="{% url 'users:billing' pk=request.session.id %}">Счет</a></li>
+        <li><a href="{% url 'users:inventory' pk=request.session.id %}">Вещи</a></li>
+        <li><a href="{% url 'users:history_games' pk=request.session.id %}">История игр</a></li>
+        <li><a href="{% url 'users:logout' %}">Выход</a></li>
+    </ul>
+</li>

@@ -1,0 +1,238 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Магазин | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">Магазин</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li class="active">Магазин</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'lottery/nav.html' %}
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            {% if settings.enable_shop == True %}
+                <div class="row">
+
+                    <!-- products start -->
+                    <div class="col-md-9 col-md-push-3">
+
+                        <!-- shop grid start -->
+                        <div class="card card--clean">
+                            <header class="card__header card__header--shop-filter">
+
+                                <div class="shop-filter">
+                                    <h5 class="shop-filter__result">Показано 4 из {{ all_stuff_count }} вещей</h5>
+
+                                    <!-- filter type start -->
+                                    {% include 'shop/filter_type.html' %}
+                                    <!-- filter type end -->
+
+                                    <div class="shop-filter__layout">
+                                        <a href="#" class="shop-filter__grid-layout icon-grid-layout icon-grid-layout--active">
+                                        <span class="icon-grid-layout__inner">
+                                            <span class="icon-grid-layout__item"></span>
+                                            <span class="icon-grid-layout__item"></span>
+                                            <span class="icon-grid-layout__item"></span>
+                                        </span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </header>
+                            <div class="card__content">
+                                <div class="alert" id="rd-alert"></div>
+
+                                <!-- products -->
+                                <ul class="products products--grid products--grid-overlay">
+
+                                    {% for stuff in all_stuff %}
+                                        <!-- product start -->
+                                        <li class="product__item product__item--color-4 card" id="stuff-shop-{{ stuff.id }}">
+                                            <div class="product__img">
+                                                <div class="product__img-holder">
+                                                    <div class="product__bg-letters">{{ stuff.title }}</div>
+
+                                                    <div class="product__slider">
+                                                        <div class="product__slide">
+                                                            <div class="product__slide-img">
+                                                                <img src="{{ stuff.img_thumbnail.url }}" alt="{{ stuff.title }}" style="width: 85%;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="product__content card__content">
+
+                                                <header class="product__header">
+                                                    <div class="product__header-inner">
+                                                        <h2 class="product__title"><a href="">{{ stuff.title }}</a></h2>
+                                                        <div class="product__price" style="color: #f92552;">{{ stuff.score }} монет</div>
+                                                    </div>
+                                                </header>
+
+                                                <footer class="product__footer">
+                                                    {% if user and not user.is_anonymous %}
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button class="btn btn-primary-inverse btn-block btn-sm shop-button"
+                                                                        onclick="payment_shop({{ stuff.id }})">Купить
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button class="btn btn-primary-inverse btn-block btn-sm shop-button"
+                                                                        onclick="favorites_shop({{ stuff.id }})">В избранное
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button class="btn btn-primary-inverse btn-block btn-sm shop-button"
+                                                                        onclick="show_auth_modal()">Купить
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button class="btn btn-primary-inverse btn-block btn-sm shop-button"
+                                                                        onclick="show_auth_modal()">В избранное
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </footer>
+                                            </div>
+                                        </li>
+                                        <!-- product end -->
+
+                                    {% endfor %}
+                                </ul>
+                                <!-- products end -->
+
+                            </div>
+                        </div>
+                        <!-- shop grid end -->
+
+                        <div class="text-center">
+                            <!-- post pagination start -->
+                            <nav class="post-pagination">
+                                <ul class="pagination pagination--lg">
+                                    {% for num in all_stuff.paginator.page_range %}
+                                        {% if num == all_stuff.number %}
+                                            <li class="active"><a href="#">{{ num }}</a></li>
+                                        {% else %}
+                                            <li><a href="{% url 'shop:main' %}?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                            <!-- post pagination end -->
+                        </div>
+
+                    </div>
+                    <!-- Products / End -->
+
+                    <!-- Sidebar -->
+                    <div class="sidebar sidebar--shop col-md-3 col-md-pull-9">
+
+                        <!-- Widget: Hot Products -->
+                        <aside class="widget widget--sidebar card widget-newsletter">
+                            <div class="widget__title card__header">
+                                <h4>Поиск</h4>
+                            </div>
+                            <div class="widget__content card__content">
+                                <form action="{% url 'shop:search' %}" id="search_stuff" class="inline-form" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" name="stuff_title" class="form-control" placeholder="Название">
+                                </form>
+                            </div>
+                        </aside>
+                        <!-- Widget: Hot Products / End -->
+
+                        <!-- Widget: Filter Price -->
+                        <aside class="widget card widget--sidebar widget-filter-price">
+                            <form action="{% url 'shop:filter_price' %}" method="post" class="filter-price-form" id="filter-price-form">
+                                {% csrf_token %}
+                                <div class="widget__title card__header card__header--has-btn">
+                                    <h4>Фильтр по цене</h4>
+                                    <button class="btn btn-primary-inverse btn-xs card-header__button">Поиск</button>
+                                </div>
+                                <div class="widget__content card__content">
+
+                                    <div class="slider-range-wrapper">
+                                        <div id="slider-range" class="slider-range"></div>
+                                        <div class="slider-range-label">
+                                            Стоимость: <span id="slider-range-value-min"></span> - <span id="slider-range-value-max"> монет</span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="min_price" value="" id="min-price-input">
+                                    <input type="hidden" name="max_price" value="" id="max-price-input">
+                                </div>
+                            </form>
+                        </aside>
+                        <!-- Widget: Filter Price / End -->
+
+                    </div>
+                    <!-- Sidebar / End -->
+
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        <h3 style="margin: 50px;">Магазин временно отключен. Обязательно попробуйте позже!</h3>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+<!-- payment modal start -->
+{% include 'include/payment_modal.html' %}
+<!-- payment modal end -->
+
+<!-- auth modal start -->
+{% include 'include/auth_modal.html' %}
+<!-- auth modal end -->
+
+</body>
+</html>

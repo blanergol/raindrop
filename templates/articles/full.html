@@ -1,0 +1,114 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>{{ article.title }} | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">{{ article.title }}</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="{% url 'articles:main' %}">Статьи</a></li>
+                        <li class="active">{{ article.title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            <div class="row">
+                <!-- content start -->
+                <div class="content col-md-8">
+                    <!-- article start -->
+                    <article class="card post post--single">
+
+                        <figure class="post__thumbnail">
+                            <img src="{{ article.img_thumbnail_full.url }}" alt="{{ article.title }}">
+                        </figure>
+
+                        <div class="card__content">
+                            <div class="post__category">
+                                <span class="label posts__cat-label">{{ article.author }}</span>
+                            </div>
+                            <header class="post__header">
+                                <h2 class="post__title">{{ article.title }}</h2>
+                                <ul class="post__meta meta">
+                                    <li class="meta__item meta__item--date">
+                                        <time datetime="{{ article.created_date }}">{{ article.created_date }}</time>
+                                    </li>
+                                </ul>
+                            </header>
+
+                            <div class="post__content">
+                                <p>{{ article.text|safe }}</p>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- article end -->
+
+                    {% if article.comments_status == True %}
+                        <!-- post comment form start -->
+                        <div class="post-comment-form card">
+                            <header class="post-comment-form__header card__header">
+                                <h4>Комментарии</h4>
+                            </header>
+                            <div class="post-comment-form__content card__content">
+                                <div id="disqus_thread"></div>
+                            </div>
+                        </div>
+                        <!-- post comment form end -->
+                    {% endif %}
+                </div>
+                <!-- content end -->
+
+                <!-- sidebar start -->
+                {% include 'include/sidebar.html' %}
+                <!-- sidebar end-->
+            </div>
+
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<script>
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://raindrop-one.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<!-- js end -->
+
+</body>
+</html>

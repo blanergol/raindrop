@@ -1,0 +1,90 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>RD Case | {{ settings.title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ settings.description }}">
+    <meta name="author" content="volstudio.pw">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    {% include "include/css.html" %}
+
+</head>
+<body class="template-football">
+
+<div class="site-wrapper clearfix">
+    <div class="site-overlay"></div>
+    <!-- header start -->
+    {% include 'include/header.html' %}
+    <!-- header end -->
+
+
+    <!-- page heading start -->
+    <div class="page-heading">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h1 class="page-heading__title">RD Case</h1>
+                    <ol class="page-heading__breadcrumb breadcrumb">
+                        <li><a href="{% url 'main:main' %}">Главная</a></li>
+                        <li><a href="#">Игры</a></li>
+                        <li class="active">RD Case</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content start -->
+    <div class="site-content">
+        <div class="container">
+            {% if case_stuff_count > 0 or settings.enable_rdcase == True %}
+
+                <!-- gallery start -->
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center">
+                        <h2>Наши кейсы</h2>
+                    </div>
+                </div>
+                <div class="gallery row">
+                    {% for case in briefcases %}
+                        <div class="gallery__item col-xs-6 col-sm-3 cases_padding">
+                            <a href="{% url 'lottery:briefcases_full' pk=case.id %}" class="gallery__item-inner card">
+                                <header class="gallery__header card__header">
+                                    <div class="gallery__details" style="text-align: center">
+                                        <h4 class="gallery__name">{{ case.title }}</h4>
+                                        <span class="label posts__cat-label" style="font-size: 12px; display: inline-block; float: none;">{{ case.score }} монет</span>
+                                    </div>
+                                </header>
+                                <figure class="gallery__thumb__main">
+                                    <img src="{{ case.img_thumbnail_briefcases_page.url }}" alt="{{ case.title }}" class="duotone-img"
+                                         data-gradient-map="{{ case.type }}">
+                                </figure>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- gallery end -->
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12" style="text-align:center;">
+                        <h3 style="margin: 50px;">Режим временно отключен. Обязательно попробуйте позже!</h3>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- content end -->
+
+    <!-- footer start -->
+    {% include 'include/footer.html' %}
+    <!-- footer end -->
+</div>
+
+<!-- js start -->
+{% include 'include/js.html' %}
+<!-- js end -->
+
+</body>
+</html>
